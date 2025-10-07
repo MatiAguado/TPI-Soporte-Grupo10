@@ -18,3 +18,7 @@ Manejo de datos en formato JSON.
 Modularidad, claridad y reutilización de código.
 
 ## Stack tecnológico
+
+En el Backend el lenguaje sera Python y nuestro framework será Flask.
+
+El Frontend será relativamente simple. Utilizaremos HTML, CSS, y Jinja2 para insertar variables dinámicas.
