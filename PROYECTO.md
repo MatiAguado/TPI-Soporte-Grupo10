@@ -24,7 +24,8 @@ Modularidad, claridad y reutilización de código.
 1. **Capa de Presentación**: HTML + CSS + Jinja2 + Flask templates.  
 2. **Capa de Negocio**: lógica de interacción entre APIs, manejo de datos, filtros, control de flujo.  
 3. **Capa de Datos**: consumo en tiempo real de datos desde RAWG y Spotify.
-<img width="1024" height="1536" alt="imagen" src="https://github.com/user-attachments/assets/9c5398f2-7d52-49e8-b2b8-1fbbf9d2095a" />
+<img width="1024" height="1536" alt="diagrama" src="https://github.com/user-attachments/assets/44ca1bd3-1981-4c14-bddc-e7c271032426" />
+
 
 
 ## Requerimientos
