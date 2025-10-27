@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generador de Playlist de Spotify por Videojuego</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+</head>
+<body>
+  <main class="card">
+    <header class="card__header">
+      <h1 class="title">Generador de Playlist de Spotify</h1>
+      <p class="subtitle">Ingresa un videojuego y te sugeriremos playlists de Spotify usando RAWG + Spotify.</p>
+    </header>
+
+    <section class="card__body">
+      <form action="" method="post">
+        <div class="input-wrap">
+          <label for="game">Videojuego</label>
+          <input
+            id="game"
+            name="game"
+            type="text"
+            placeholder="Ej: The Witcher 3, Hollow Knight, Fortnite..."
+            value="{{ request.form.get('game', '') if request and request.form else (game if game is defined else '') }}"
+            required
+            autocomplete="off"
+          />
+        </div>
+        <button type="submit">Generar playlists</button>
+      </form>
+      <p class="helper">Sugerencia: prueba con franquicias o géneros ("Zelda", "Soulslike", "Cyberpunk").</p>
+
+      {% if error %}
+        <div class="error">{{ error }}</div>
+      {% endif %}
+
+      {% if playlists is defined %}
+        {% if playlists %}
+          <ul class="results">
+            {% for pl in playlists %}
+              {# Permite soportar tuplas (name, url) o dicts con keys 'name' y 'url'/'external_url' #}
+              {% set name = pl.name if pl is mapping else (pl[0] if pl|length > 0 else '') %}
+              {% set url = (pl.url if pl is mapping else (pl[1] if pl|length > 1 else '')) or (pl.external_url if pl is mapping and 'external_url' in pl else '') %}
+              <li class="playlist">
+                <p class="playlist__name">{{ name }}</p>
+                <a class="playlist__link" href="{{ url }}" target="_blank" rel="noopener noreferrer">Abrir en Spotify</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="empty">No encontramos playlists para este videojuego todavía. Intenta con otro término o un género.</div>
+        {% endif %}
+      {% endif %}
+    </section>
+
+    <footer class="footer">
+      <span>Datos de videojuegos por <a href="https://rawg.io/apidocs" target="_blank" rel="noopener">RAWG</a>.</span>
+      <span>Playlists por <a href="https://developer.spotify.com/" target="_blank" rel="noopener">Spotify</a>.</span>
+    </footer>
+  </main>
+</body>
+</html>
