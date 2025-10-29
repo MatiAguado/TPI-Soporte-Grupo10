@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="card" style="max-width:880px;margin:28px auto;">
+  <header class="card__header">
+    <h1 class="title">Generador de Playlist de Spotify</h1>
+    <p class="subtitle">Ingresa un videojuego y te sugeriremos playlists de Spotify usando RAWG + Spotify.</p>
+  </header>
+
+  <section class="card__body">
+    <form action="{{ url_for('buscar') }}" method="post">
+      <div class="input-wrap">
+        <label for="game">Videojuego</label>
+        <input id="game" name="game" type="text"
+          placeholder="Ej: The Witcher 3, Hollow Knight, Fortnite..."
+          value="{{ request.form.get('game', '') if request and request.form else (juego if juego is defined else '') }}"
+          required autocomplete="off" />
+      </div>
+      <button type="submit">Generar playlists</button>
+    </form>
+
+    <form action="{{ url_for('create_playlist') }}" method="post" style="margin-top:10px; display:flex; gap:8px; align-items:center;">
+      <input type="hidden" name="game" value="{{ request.form.get('game', '') if request and request.form else (juego if juego is defined else '') }}" />
+      <input type="text" name="playlist_name" placeholder="Nombre para tu playlist (opcional)" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:transparent;color:inherit;" />
+      <button type="submit">Crear playlist en mi cuenta</button>
+    </form>
+
+    <p class="helper">Sugerencia: prueba con franquicias o géneros ("Zelda", "Soulslike", "Cyberpunk").</p>
+
+    {% if descripcion %}
+      <p><small>{{ descripcion }}</small></p>
+    {% endif %}
+
+    {% if generos %}
+      <p><strong>Géneros:</strong> {{ generos | join(', ') }}</p>
+    {% endif %}
+
+    {% if playlists is defined %}
+      {% if playlists %}
+        <ul class="results">
+          {% for name, url in playlists %}
+            <li class="playlist">
+              <p class="playlist__name">{{ name }}</p>
+              <a class="playlist__link" href="{{ url }}" target="_blank" rel="noopener noreferrer">Abrir en Spotify</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <div class="empty">No encontramos playlists para este videojuego todavía. Intenta con otro término o un género.</div>
+      {% endif %}
+    {% endif %}
+  </section>
+
+  <footer class="footer">
+    <span>Datos de videojuegos por <a href="https://rawg.io/apidocs" target="_blank" rel="noopener">RAWG</a>.</span>
+    <span>Playlists por <a href="https://developer.spotify.com/" target="_blank" rel="noopener">Spotify</a>.</span>
+  </footer>
+</main>
+{% endblock %}

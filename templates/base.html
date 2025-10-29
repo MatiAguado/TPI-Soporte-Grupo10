@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title %}Generador Playlist{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+</head>
+<body>
+  <header style="padding:12px 20px; display:flex; justify-content:space-between; align-items:center;">
+    <div>
+      <strong>Generador de Playlist</strong>
+    </div>
+    <nav style="display:flex; gap:12px; align-items:center;">
+      {% if session.token_info %}
+        <a href="{{ url_for('home') }}">Inicio</a>
+        <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+      {% else %}
+        <a href="{{ url_for('authorize') }}">Iniciar sesión con Spotify</a>
+      {% endif %}
+    </nav>
+  </header>
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div style="max-width:880px;margin:12px auto;padding:0 20px;">
+          {% for category, msg in messages %}
+            <div style="padding:8px 12px;border-radius:8px;margin-bottom:8px;background:#222;color:#fff;">
+              {{ msg }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
