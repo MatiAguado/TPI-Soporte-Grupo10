@@ -5,10 +5,24 @@ def search_spotify_playlists(sp, keywords, limit=6):
     q = (keywords or '').strip()
     if not q:
         return []
-    results = sp.search(q=q, type='playlist', limit=limit)
-    items = results.get('playlists', {}).get('items', [])
-    playlists = [(it['name'], it['external_urls']['spotify']) for it in items]
-    return playlists
+
+    try:
+        results = sp.search(q=q, type='playlist', limit=limit)
+        items = results.get('playlists', {}).get('items', [])
+
+        # Filtrar elementos válidos
+        playlists = []
+        for it in items:
+            if it and isinstance(it, dict):
+                name = it.get('name')
+                url = it.get('external_urls', {}).get('spotify')
+                if name and url:
+                    playlists.append((name, url))
+
+        return playlists
+    except Exception as e:
+        logging.error(f"Error buscando playlists en Spotify: {e}")
+        return []
 
 
 def search_top_tracks_for_keywords(sp, keywords, limit=30):
@@ -16,17 +30,24 @@ def search_top_tracks_for_keywords(sp, keywords, limit=30):
     q = (keywords or '').strip()
     if not q:
         return []
-    # Buscamos tracks (podés ajustar el tipo de query: e.g., f"{keywords} genre:rock")
-    results = sp.search(q=q, type='track', limit=min(limit, 50))
-    items = results.get('tracks', {}).get('items', [])
-    uris = []
-    seen = set()
-    for it in items:
-        uri = it.get('uri')
-        if uri and uri not in seen:
-            uris.append(uri)
-            seen.add(uri)
-    return uris[:limit]
+
+    try:
+        results = sp.search(q=q, type='track', limit=min(limit, 50))
+        items = results.get('tracks', {}).get('items', [])
+        uris = []
+        seen = set()
+
+        for it in items:
+            if it and isinstance(it, dict):
+                uri = it.get('uri')
+                if uri and uri not in seen:
+                    uris.append(uri)
+                    seen.add(uri)
+
+        return uris[:limit]
+    except Exception as e:
+        logging.error(f"Error buscando tracks en Spotify: {e}")
+        return []
 
 
 def create_user_playlist(sp, user_id, name, description="", public=False):
