@@ -7,11 +7,24 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
 </head>
 <body>
-  <header style="padding:12px 20px; display:flex; justify-content:space-between; align-items:center;">
+  <!-- <header style="padding:12px 20px; display:flex; justify-content:space-between; align-items:center;">
     <div>
       <strong>Generador de Playlist</strong>
     </div>
     <nav style="display:flex; gap:12px; align-items:center;">
+      {% if session.token_info %}
+        <a href="{{ url_for('home') }}">Inicio</a>
+        <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+      {% else %}
+        <a href="{{ url_for('authorize') }}">Iniciar sesión con Spotify</a>
+      {% endif %}
+    </nav>
+  </header>-->
+  <header class="header">
+    <div class="header__title">
+      <strong>Generador de Playlist</strong>
+    </div>
+    <nav class="header__nav">
       {% if session.token_info %}
         <a href="{{ url_for('home') }}">Inicio</a>
         <a href="{{ url_for('logout') }}">Cerrar sesión</a>

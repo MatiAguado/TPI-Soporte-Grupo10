@@ -58,6 +58,30 @@ form{
   gap: 12px;
   margin-bottom: 18px;
 }
+@media (max-width: 600px) {
+
+  /* Aplica a todos los formularios */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Asegura que todos los inputs y botones se ajusten */
+  form input[type="text"],
+  form input[type="search"],
+  form button {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Si tenés inputs y botones dentro de un div, también */
+  form>div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
 .input-wrap{ position: relative; }
 label{
   position:absolute;
@@ -151,3 +175,93 @@ button:active{ transform: translateY(1px); }
 }
 .footer a{ color: var(--accent-2); text-decoration:none; }
 .footer a:hover{ text-decoration:underline; }
+
+
+
+
+/* === HEADER SUPERIOR === */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: var(--panel);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  padding: 14px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+}
+
+.header__title {
+  font-size: 18px;
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.header__nav {
+  display: flex;
+  gap: 20px;
+}
+
+.header__nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.25s;
+}
+
+.header__nav a:hover {
+  color: var(--accent);
+}
+
+/* Ajuste para el contenido principal */
+main {
+  margin-top: 80px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 20px;
+  }
+
+  .header__title {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .header__nav {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .header__nav a {
+    font-size: 14px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* En pantallas menos de 500px */
+@media (max-width: 500px) {
+  .header {
+    text-align: center;
+    align-items: center;
+  }
+
+  .header__title {
+    width: 100%;
+    text-align: center;
+  }
+
+  .header__nav {
+    justify-content: center;
+  }
+}
