@@ -1,12 +1,28 @@
 {% extends "base.html" %}
 {% block title %}Iniciar sesión{% endblock %}
 {% block content %}
-  <section style="max-width:880px;margin:40px auto;padding:20px;">
-    <h2>Iniciar sesión con Spotify</h2>
-    <p>Vas a ser redirigido a Spotify para autorizar la aplicación.</p>
-    <a href="{{ url_for('authorize') }}"><button>Iniciar con Spotify</button></a>
+<section style="max-width:880px;margin:40px auto;padding:20px;">
+  <h2>Iniciar sesión con Spotify</h2>
+  <p>Vas a ser redirigido a Spotify para autorizar la aplicación.</p>
+  <div style="text-align: center;">
+    <a href="{{ url_for('authorize') }}" style="display: block; text-decoration: none;"><button
+        style="width: 100%;">Iniciar con Spotify</button></a>
     {% if error %}
-      <p style="color:#f66">{{ error }}</p>
+    <p style="color:#f66">{{ error }}</p>
     {% endif %}
-  </section>
+    <div style="margin:24px;">
+      <form action="https://accounts.spotify.com/logout" method="get" target="_blank">
+        <button type="submit" style="
+          background: #0f1115;
+          color:#18a34a;
+          border-style: solid;
+          border-color: linear-gradient(180deg, var(--accent), #18a34a);
+          border-radius:10px;
+          border-width: 2px;
+          width: 100%;
+        ">Cerrar sesión en Spotify</button>
+      </form>
+    </div>
+  </div>
+</section>
 {% endblock %}

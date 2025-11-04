@@ -64,7 +64,10 @@ def _get_token():
 @app.route('/')
 def root():
     # Al abrir la app redirigimos al inicio del flujo de autorización
-    return redirect(url_for('authorize'))
+    if 'token_info' in session:
+        return redirect(url_for('home'))
+    ##return redirect(url_for('authorize'))
+    return render_template('login.html')
 
 
 @app.route('/authorize')
@@ -183,9 +186,11 @@ def create_playlist():
 
 @app.route('/logout')
 def logout():
+    session.pop('_flashes', None)
     session.pop('token_info', None)
     flash('Sesión finalizada.', 'info')
-    return redirect(url_for('root'))
+    ## return redirect(url_for('root'))
+    return render_template('login.html')
 
 
 if __name__ == '__main__':
